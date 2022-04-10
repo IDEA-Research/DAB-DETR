@@ -86,7 +86,7 @@ def get_args_parser():
                         help="Using pre-norm in the Transformer blocks.")    
     parser.add_argument('--num_select', default=300, type=int, 
                         help='the number of predictions selected for evaluation')
-    parser.add_argument('--transformer_activation', default='relu', type=str)
+    parser.add_argument('--transformer_activation', default='prelu', type=str)
     parser.add_argument('--num_patterns', default=0, type=int, 
                         help='number of pattern embeddings. See Anchor DETR for more details.')
     parser.add_argument('--random_refpoints_xy', action='store_true', 
