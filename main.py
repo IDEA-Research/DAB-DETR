@@ -348,7 +348,7 @@ def main(args):
                     'args': args,
                 }, checkpoint_path)
 
-
+        lr_scheduler.step()
         if args.output_dir:
             checkpoint_paths = [output_dir / 'checkpoint.pth']
             # extra checkpoint before LR drop and every 100 epochs
