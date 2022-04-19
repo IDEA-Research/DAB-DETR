@@ -15,7 +15,7 @@
 
 
 import os
-
+import copy
 import math
 from typing import Dict
 import torch
@@ -94,7 +94,7 @@ class DABDETR(nn.Module):
         self.class_embed = nn.Linear(hidden_dim, num_classes)
         self.bbox_embed_diff_each_layer = bbox_embed_diff_each_layer
         if bbox_embed_diff_each_layer:
-            self.bbox_embed = nn.ModuleList([MLP(hidden_dim, hidden_dim, 4, 3) for i in range(6)])
+            self.bbox_embed = nn.ModuleList([copy.deepcopy(MLP(hidden_dim, hidden_dim, 4, 3)) for i in range(6)])
         else:
             self.bbox_embed = MLP(hidden_dim, hidden_dim, 4, 3)
         
