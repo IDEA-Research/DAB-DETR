@@ -167,13 +167,13 @@ def make_coco_transforms(image_set, fix_size=False, strong_aug=False, args=None)
     #     scales2_crop = [int(i*data_aug_scale_overlap) for i in scales2_crop]
 
 
-    datadict_for_print = {
-        'scales': scales,
-        'max_size': max_size,
-        'scales2_resize': scales2_resize,
-        'scales2_crop': scales2_crop
-    }
-    print("data_aug_params:", json.dumps(datadict_for_print, indent=2))
+    # datadict_for_print = {
+    #     'scales': scales,
+    #     'max_size': max_size,
+    #     'scales2_resize': scales2_resize,
+    #     'scales2_crop': scales2_crop
+    # }
+    # print("data_aug_params:", json.dumps(datadict_for_print, indent=2))
         
 
     if image_set == 'train':
@@ -265,8 +265,13 @@ def build(image_set, args):
         strong_aug = args.strong_aug
     except:
         strong_aug = False
+
+    try:
+        fix_size = args.fix_size
+    except:
+        fix_size = False
     dataset = CocoDetection(img_folder, ann_file, 
-            transforms=make_coco_transforms(image_set, fix_size=args.fix_size, strong_aug=strong_aug, args=args), 
+            transforms=make_coco_transforms(image_set, fix_size=fix_size, strong_aug=strong_aug, args=args), 
             return_masks=args.masks,
             aux_target_hacks=aux_target_hacks_list,
         )

@@ -39,19 +39,6 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
     _cnt = 0
     for samples, targets in metric_logger.log_every(data_loader, print_freq, header, logger=logger):
-        # slprint(samples, 'samples') 
-        #     # {'tensors.shape': torch.Size([2, 3, 1024, 768]), 'mask.shape': torch.Size([2, 1024, 768])}
-        # slprint(targets, 'targets')
-        #     # tuple(    (
-        #     #   boxes[6,4],
-        #     #   labels[6],
-        #     #   image_id[1],
-        #     #   area[6],
-        #     #   iscrowd[6],
-        #     #   orgi_size[2]    
-        #     #   ) x2,
-        #     # )
-        # import ipdb; ipdb.set_trace()
 
         samples = samples.to(device)
         targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
@@ -64,15 +51,8 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
         
             loss_dict = criterion(outputs, targets)
             weight_dict = criterion.weight_dict
-            # import ipdb; ipdb.set_trace()
             losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
 
-        # slprint(outputs, 'outputs')
-        # pred_logits: 2, 100, 92
-        # pred_boxes: 2, 100, 4
-        # aux_outputs: [pred_logits:[2, 100, 92],
-        #               pred_boxes:[2, 100, 4]]
-        # import ipdb; ipdb.set_trace()
 
         # reduce losses over all GPUs for logging purposes
         loss_dict_reduced = utils.reduce_dict(loss_dict)

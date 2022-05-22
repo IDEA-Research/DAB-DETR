@@ -82,7 +82,7 @@ class DABDETR(nn.Module):
             aux_loss: True if auxiliary decoding losses (loss at each decoder layer) are to be used.
             iter_update: iterative update of boxes
             query_dim: query dimension. 2 for point and 4 for box.
-            bbox_embed_diff_each_layer: dont share weights of prediction heads. Default for True.(shared weights.)
+            bbox_embed_diff_each_layer: dont share weights of prediction heads. Default for False. (shared weights.)
             random_refpoints_xy: random init the x,y of anchor boxes and freeze them. (It sometimes helps to improve the performance)
             
 

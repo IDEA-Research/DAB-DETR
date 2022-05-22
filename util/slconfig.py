@@ -193,6 +193,7 @@ class SLConfig(object):
         if cfg_dict is None:
             cfg_dict = dict()
         elif not isinstance(cfg_dict, dict):
+            print("cfg_dict:", cfg_dict)
             raise TypeError('cfg_dict must be a dict, but '
                             f'got {type(cfg_dict)}')
         for key in cfg_dict:
