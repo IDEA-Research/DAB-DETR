@@ -382,6 +382,9 @@ class DeformableTransformerDecoder(nn.Module):
         output = tgt
         if self.use_dab:
             assert query_pos is None
+        bs = src.shape[0]
+        reference_points = reference_points[None].repeat(bs, 1, 1) # bs, nq, 4(xywh)
+
 
         intermediate = []
         intermediate_reference_points = []
