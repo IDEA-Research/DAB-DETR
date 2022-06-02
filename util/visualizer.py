@@ -58,7 +58,7 @@ class COCOVisualizer():
     def __init__(self) -> None:
         pass
 
-    def visualize(self, img, tgt, caption=None, dpi=300, savedir=None, show_in_console=True):
+    def visualize(self, img, tgt, caption=None, dpi=140, savedir=None, show_in_console=True):
         """
         img: tensor(3, H, W)
         tgt: make sure they are all on cpu.
