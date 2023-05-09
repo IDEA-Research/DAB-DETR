@@ -35,12 +35,12 @@ class MLP(nn.Module):
             x = F.relu(layer(x)) if i < self.num_layers - 1 else layer(x)
         return x
 
-def gen_sineembed_for_position(pos_tensor):
+def gen_sineembed_for_position(pos_tensor, d_model=256):
     # n_query, bs, _ = pos_tensor.size()
     # sineembed_tensor = torch.zeros(n_query, bs, 256)
     scale = 2 * math.pi
-    dim_t = torch.arange(128, dtype=torch.float32, device=pos_tensor.device)
-    dim_t = 10000 ** (2 * (dim_t // 2) / 128)
+    dim_t = torch.arange(d_model // 2, dtype=torch.float32, device=pos_tensor.device)
+    dim_t = 10000 ** (2 * (dim_t // 2) / (d_model // 2))
     x_embed = pos_tensor[:, :, 0] * scale
     y_embed = pos_tensor[:, :, 1] * scale
     pos_x = x_embed[:, :, None] / dim_t
@@ -222,7 +222,7 @@ class TransformerDecoder(nn.Module):
         for layer_id, layer in enumerate(self.layers):
             obj_center = reference_points[..., :self.query_dim]     # [num_queries, batch_size, 2]
             # get sine embedding for the query vector
-            query_sine_embed = gen_sineembed_for_position(obj_center)  
+            query_sine_embed = gen_sineembed_for_position(obj_center, self.d_model)  
             query_pos = self.ref_point_head(query_sine_embed) 
 
             # For the first decoder layer, we do not apply transformation over p_s
