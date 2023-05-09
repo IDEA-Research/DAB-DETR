@@ -222,7 +222,7 @@ class TransformerDecoder(nn.Module):
         for layer_id, layer in enumerate(self.layers):
             obj_center = reference_points[..., :self.query_dim]     # [num_queries, batch_size, 2]
             # get sine embedding for the query vector
-            query_sine_embed = gen_sineembed_for_position(obj_center)  
+            query_sine_embed = gen_sineembed_for_position(obj_center, self.d_model)  
             query_pos = self.ref_point_head(query_sine_embed) 
 
             # For the first decoder layer, we do not apply transformation over p_s
