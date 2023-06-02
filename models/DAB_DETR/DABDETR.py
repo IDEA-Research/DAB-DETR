@@ -65,7 +65,7 @@ def sigmoid_focal_loss(inputs, targets, num_boxes, alpha: float = 0.25, gamma: f
 
 class DABDETR(nn.Module):
     """ This is the DAB-DETR module that performs object detection """
-    def __init__(self, backbone, transformer, num_classes, num_queries, 
+    def __init__(self, backbone, transformer, num_classes, num_queries, num_dec_layers,
                     aux_loss=False, 
                     iter_update=True,
                     query_dim=4, 
@@ -94,7 +94,7 @@ class DABDETR(nn.Module):
         self.class_embed = nn.Linear(hidden_dim, num_classes)
         self.bbox_embed_diff_each_layer = bbox_embed_diff_each_layer
         if bbox_embed_diff_each_layer:
-            self.bbox_embed = nn.ModuleList([MLP(hidden_dim, hidden_dim, 4, 3) for i in range(6)])
+            self.bbox_embed = nn.ModuleList([MLP(hidden_dim, hidden_dim, 4, 3) for i in range(num_dec_layers)])
         else:
             self.bbox_embed = MLP(hidden_dim, hidden_dim, 4, 3)
         
@@ -475,6 +475,7 @@ def build_DABDETR(args):
         transformer,
         num_classes=num_classes,
         num_queries=args.num_queries,
+        num_dec_layers=args.dec_layers,
         aux_loss=args.aux_loss,
         iter_update=True,
         query_dim=4,
